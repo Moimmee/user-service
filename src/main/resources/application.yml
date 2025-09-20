@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: user-service
+  profiles:
+    active: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: k8s
+
+logging:
+  level:
+    root: INFO
+    com.moimmee: DEBUG
