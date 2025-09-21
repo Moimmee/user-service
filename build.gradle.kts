@@ -3,6 +3,8 @@ plugins {
     kotlin("plugin.spring") version "1.9.25"
     id("org.springframework.boot") version "3.5.6"
     id("io.spring.dependency-management") version "1.1.7"
+    id("com.google.protobuf") version "0.9.4"
+    kotlin("plugin.jpa") version "1.9.10"
 }
 
 group = "com.moimmee"
@@ -36,7 +38,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
     // security
-    implementation("org.springframework.boot:spring-boot-starter-security")
+//    implementation("org.springframework.boot:spring-boot-starter-security")
     testImplementation("org.springframework.security:spring-security-test")
 
     // monitoring
@@ -46,6 +48,40 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-api:0.12.6")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
+
+    // Kafka
+    implementation("org.springframework.kafka:spring-kafka")
+
+    // gRPC
+    implementation("net.devh:grpc-spring-boot-starter:2.15.0.RELEASE")
+    implementation("io.grpc:grpc-kotlin-stub:1.4.0")
+    implementation("io.grpc:grpc-protobuf:1.58.0")
+    implementation("com.google.protobuf:protobuf-kotlin:3.24.4")
+
+    // jpa
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.24.4"
+    }
+    plugins {
+        id("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.58.0"
+        }
+        id("grpckt") {
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:1.4.0:jdk8@jar"
+        }
+    }
+    generateProtoTasks {
+        all().forEach {
+            it.plugins {
+                id("grpc")
+                id("grpckt")
+            }
+        }
+    }
 }
 
 kotlin {
