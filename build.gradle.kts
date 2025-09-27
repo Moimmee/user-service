@@ -28,6 +28,7 @@ dependencies {
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
@@ -67,23 +68,25 @@ protobuf {
         artifact = "com.google.protobuf:protoc:3.24.4"
     }
     plugins {
-        id("grpc") {
+        create("grpc") {
             artifact = "io.grpc:protoc-gen-grpc-java:1.58.0"
         }
-        id("grpckt") {
+        create("grpckt") {
             artifact = "io.grpc:protoc-gen-grpc-kotlin:1.4.0:jdk8@jar"
         }
     }
     generateProtoTasks {
-        all().forEach {
-            it.plugins {
-                id("grpc")
-                id("grpckt")
+        all().forEach { task ->
+            task.plugins {
+                create("grpc")
+                create("grpckt")
+            }
+            task.builtins {
+                create("kotlin")
             }
         }
     }
 }
-
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
