@@ -6,19 +6,33 @@ option java_package = "com.moimmee.proto.user";
 option java_outer_classname = "UserServiceProto";
 
 import "google/protobuf/any.proto";
+import "google/protobuf/empty.proto";
 
 // 요청/응답 메시지
-message BaseEntity {
-  string created_date = 1;
-  string updated_date = 2;
-  google.protobuf.Any entity = 3;
+
+service UserService {
+  rpc Register(RegisterReq) returns (google.protobuf.Empty);
+  rpc GetUser(GetUserReq) returns (GetUserRes);
+  rpc GetAllUsers(google.protobuf.Empty) returns (GetAllUsersRes);
 }
 
-// User 엔티티
-message User {
+message RegisterReq {
+  string name = 1;
+  string gender = 2;
+  string email = 3;
+}
+
+message GetUserReq {
   int64 id = 1;
-  string name = 2;
-  string role = 3;
-  string gender = 4;
-  string email = 5;
+}
+
+message GetUserRes {
+  string name = 1;
+  string role = 2;
+  string gender = 3;
+  string email = 4;
+}
+
+message GetAllUsersRes {
+  repeated GetUserRes user = 1;
 }
