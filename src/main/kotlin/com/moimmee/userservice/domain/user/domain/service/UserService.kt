@@ -17,8 +17,6 @@ class UserService(
 ) {
 
     fun saveUser(req: RegisterReq) {
-        println(req.gender)
-        println(req.email)
         userRepo.save(RegisterReq.toEntity(req))
     }
 
