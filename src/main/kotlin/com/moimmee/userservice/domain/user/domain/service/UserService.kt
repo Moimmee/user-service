@@ -14,14 +14,15 @@ class UserService(
 ) {
 
     fun saveUser(req: RegisterReq) {
+        println(req.gender)
+        println(req.email)
         userRepo.save(RegisterReq.toEntity(req))
     }
 
     fun verifyEmailConflict(desiredEmail: String) {
-        val isConflicted = userRepo.findAllWithEmailPair()
-                .stream()
-                .anyMatch { it -> it.getEmail().equals(desiredEmail) }
-        if (isConflicted) throw EmailAlreadyUsedException();
+        if (userRepo.existsByEmail(desiredEmail)) {
+            throw EmailAlreadyUsedException();
+        }
     }
 
     fun findUser(req: GetUserReq): GetUserRes {

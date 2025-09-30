@@ -9,12 +9,6 @@ import java.util.*
 @Repository
 interface UserRepository : JpaRepository<UserEntity, Long> {
 
-    @Query("SELECT u.id FROM UserEntity u")
-    fun findAllWithEmailPair(): List<UserEmailMapping>
+    fun existsByEmail(email: String): Boolean
 
-}
-
-interface UserEmailMapping {
-    fun getId(): Long
-    fun getEmail(): String
 }

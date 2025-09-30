@@ -11,28 +11,28 @@ import "google/protobuf/empty.proto";
 // 요청/응답 메시지
 
 service UserService {
-  rpc Register(RegisterReq) returns (google.protobuf.Empty);
-  rpc GetUser(GetUserReq) returns (GetUserRes);
-  rpc GetAllUsers(google.protobuf.Empty) returns (GetAllUsersRes);
+  rpc Register(RegisterUserRequest) returns (google.protobuf.Empty);
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+  rpc GetAllUsers(google.protobuf.Empty) returns (GetAllUsersResponse);
 }
 
-message RegisterReq {
+message RegisterUserRequest {
   string name = 1;
   string gender = 2;
   string email = 3;
 }
 
-message GetUserReq {
+message GetUserRequest {
   int64 id = 1;
 }
 
-message GetUserRes {
+message GetUserResponse {
   string name = 1;
   string role = 2;
   string gender = 3;
   string email = 4;
 }
 
-message GetAllUsersRes {
-  repeated GetUserRes user = 1;
+message GetAllUsersResponse {
+  repeated GetUserResponse user = 1;
 }

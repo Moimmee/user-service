@@ -35,6 +35,9 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
+    // mysql
+    runtimeOnly("com.mysql:mysql-connector-j")
+
     // health check
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 

@@ -12,6 +12,8 @@ class UserUseCase(
 ) {
 
     fun register(req: RegisterReq) {
+        println(req.gender)
+        println(req.email)
         userService.verifyEmailConflict(req.email);
         userService.saveUser(req)
     }

@@ -1,8 +1,8 @@
 package com.moimmee.userservice.domain.core.exception
 
-import org.springframework.http.HttpStatus
+import io.grpc.Status
 
 interface CustomExceptionCode {
-    val status: HttpStatus
+    val status: Status
     val message: String
 }
