@@ -14,6 +14,8 @@ service UserService {
   rpc Register(RegisterUserRequest) returns (google.protobuf.Empty);
   rpc GetUser(GetUserRequest) returns (GetUserResponse);
   rpc GetAllUsers(google.protobuf.Empty) returns (GetAllUsersResponse);
+  rpc EditUser(EditUserRequest) returns (google.protobuf.Empty);
+  rpc DeleteUser(DeleteUserRequest) returns (google.protobuf.Empty);
 }
 
 message RegisterUserRequest {
@@ -35,4 +37,14 @@ message GetUserResponse {
 
 message GetAllUsersResponse {
   repeated GetUserResponse user = 1;
+}
+
+message EditUserRequest {
+  int64 id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message DeleteUserRequest {
+  int64 id = 1;
 }

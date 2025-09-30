@@ -3,7 +3,10 @@ package com.moimmee.userservice.domain.user.application.grpc
 import com.google.protobuf.Empty
 import com.moimmee.proto.user.UserServiceGrpc.UserServiceImplBase
 import com.moimmee.proto.user.UserServiceProto
+import com.moimmee.proto.user.UserServiceProto.EditUserRequest
 import com.moimmee.proto.user.UserServiceProto.GetUserResponse
+import com.moimmee.userservice.domain.user.application.dto.req.DeleteUserReq
+import com.moimmee.userservice.domain.user.application.dto.req.EditUserReq
 import com.moimmee.userservice.domain.user.application.dto.req.GetUserReq
 import com.moimmee.userservice.domain.user.application.dto.req.RegisterReq
 import com.moimmee.userservice.domain.user.application.dto.res.GetUserRes
@@ -53,6 +56,28 @@ class UserGrpcService(
                 .build()
 
         responseObserver.onNext(response)
+        responseObserver.onCompleted()
+    }
+
+    override fun editUser(request: EditUserRequest, responseObserver: StreamObserver<Empty>) {
+        val mappedReq = EditUserReq(
+            id = request.id,
+            name = request.name,
+            email = request.email
+        )
+        userUseCase.editUser(mappedReq);
+
+        responseObserver.onNext(Empty.getDefaultInstance())
+        responseObserver.onCompleted()
+    }
+
+    override fun deleteUser(request: UserServiceProto.DeleteUserRequest, responseObserver: StreamObserver<Empty>) {
+        val mappedReq = DeleteUserReq(
+            id = request.id
+        )
+        userUseCase.deleteUser(mappedReq);
+
+        responseObserver.onNext(Empty.getDefaultInstance())
         responseObserver.onCompleted()
     }
 }

@@ -31,4 +31,8 @@ class UserEntity(
         var email: String
 
 ) : BaseEntity() {
+        fun update(@NotBlank name: String, email: String) {
+                this.name = name
+                this.email = email
+        }
 }

@@ -1,5 +1,7 @@
 package com.moimmee.userservice.domain.user.domain.usecase
 
+import com.moimmee.userservice.domain.user.application.dto.req.DeleteUserReq
+import com.moimmee.userservice.domain.user.application.dto.req.EditUserReq
 import com.moimmee.userservice.domain.user.application.dto.req.GetUserReq
 import com.moimmee.userservice.domain.user.application.dto.req.RegisterReq
 import com.moimmee.userservice.domain.user.application.dto.res.GetUserRes
@@ -24,5 +26,13 @@ class UserUseCase(
 
     fun getAllUsers(): List<GetUserRes> {
         return userService.findAllUsers();
+    }
+
+    fun editUser(req: EditUserReq) {
+        userService.editUser(req)
+    }
+
+    fun deleteUser(req: DeleteUserReq) {
+        userService.deleteUser(req)
     }
 }
