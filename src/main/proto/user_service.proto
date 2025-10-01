@@ -5,27 +5,46 @@ package user;
 option java_package = "com.moimmee.proto.user";
 option java_outer_classname = "UserServiceProto";
 
-// 서비스 정의
-service UserService {
-  rpc GetUser(GetUserRequest) returns (GetUserResponse);
-}
+import "google/protobuf/any.proto";
+import "google/protobuf/empty.proto";
 
 // 요청/응답 메시지
+
+service UserService {
+  rpc Register(RegisterUserRequest) returns (google.protobuf.Empty);
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+  rpc GetAllUsers(google.protobuf.Empty) returns (GetAllUsersResponse);
+  rpc EditUser(EditUserRequest) returns (google.protobuf.Empty);
+  rpc DeleteUser(DeleteUserRequest) returns (google.protobuf.Empty);
+}
+
+message RegisterUserRequest {
+  string name = 1;
+  string gender = 2;
+  string email = 3;
+}
+
 message GetUserRequest {
-  string user_id = 1;
+  int64 id = 1;
 }
 
 message GetUserResponse {
-  bool success = 1;
-  User user = 2;
-  string message = 3;
+  string name = 1;
+  string role = 2;
+  string gender = 3;
+  string email = 4;
 }
 
-// User 엔티티
-message User {
-  string id = 1;
-  string username = 2;
+message GetAllUsersResponse {
+  repeated GetUserResponse user = 1;
+}
+
+message EditUserRequest {
+  int64 id = 1;
+  string name = 2;
   string email = 3;
-  string created_at = 4;
-  string updated_at = 5;
+}
+
+message DeleteUserRequest {
+  int64 id = 1;
 }
