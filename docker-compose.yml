@@ -10,7 +10,7 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: user_service
     ports:
-      - "3307:3306"  # gathering-service와 포트 겹치지 않게
+      - "3306:3306"  # gathering-service와 포트 겹치지 않게
     volumes:
       - user_mysql_data:/var/lib/mysql
 
@@ -35,7 +35,7 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9093
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     ports:
-      - "9093:9092"  # 다른 포트
+      - "9098:9092"  # 다른 포트
 
 volumes:
   user_mysql_data:
