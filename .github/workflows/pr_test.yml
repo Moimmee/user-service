@@ -1,0 +1,59 @@
+name: PR Build & Test
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: testdb
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: testpass
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=5s
+          --health-timeout=2s
+          --health-retries=3
+
+    env:
+      DB_URL: jdbc:mysql://127.0.0.1:3306/testdb
+      DB_USERNAME: testuser
+      DB_PASSWORD: testpass
+      JPA_DDL_AUTO: none
+      KAFKA_BOOTSTRAP_SERVERS: localhost:9092
+      SERVER_PORT: 8080
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: gradle   # Gradle 캐시를 setup-java에서 바로 관리
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run build & test
+        run: ./gradlew clean build --no-daemon --parallel --build-cache
+
+      - name: Upload test report (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: build/reports/tests/test/

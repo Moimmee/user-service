@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: user-deployment
+
+spec:
+  selector:
+    matchLabels:
+      app: user-app # 해당 label을 가진 pod를 배포할 것이라고 명시
+  replicas: 3
+
+  template: # 배포할 pod에 대한 정보
+    metadata:
+      labels:
+        app: user-app
+    spec:
+      containers:
+        - name: user-container
+          image: osoohynn3/user-image
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: user-config
+            - secretRef:
+                name: user-secret
